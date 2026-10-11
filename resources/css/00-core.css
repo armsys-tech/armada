@@ -82,7 +82,7 @@
     --arm-surface-2: #f4f4f5;
     --arm-surface-3: #ebebee;
     --arm-surface-elevated: #ffffff;
-    --arm-overlay: rgb(9 9 11 / .38);
+    --arm-overlay: rgb(9 9 11 / .5);
     --arm-hover: rgb(9 9 11 / .04);
     --arm-active: rgb(9 9 11 / .07);
     --arm-input-bg: #ffffff;
@@ -112,12 +112,13 @@
     --arm-focus: #3b6af0;
   }
 
-  /* Touch screens get thumb-sized controls. */
+  /* Touch screens: the visual scale stays (xs<sm<md<lg<xl); the 44px tap target comes from an invisible hit area, see .arm-btn::after. */
   @media (pointer: coarse) {
     :root {
-      --arm-control-h-sm: 36px;
-      --arm-control-h-md: 44px;
-      --arm-control-h-lg: 48px;
+      --arm-control-h-xs: 28px;
+      --arm-control-h-sm: 34px;
+      --arm-control-h-md: 40px;
+      --arm-control-h-lg: 46px;
       --arm-control-h-xl: 52px;
     }
   }
@@ -144,20 +145,6 @@
 
 /* ========================================================================== Components */
 @layer arm.components {
-
-  /* ---------- Tones: any component reads --tone / --tone-hover / --on-tone ---------- */
-  [data-tone] { --tone-hover: color-mix(in oklab, var(--tone) 86%, var(--arm-mix)); }
-  [data-tone="neutral"] { --tone: var(--arm-inverse); --tone-hover: var(--arm-inverse-hover); --on-tone: var(--arm-on-inverse); }
-  [data-tone="primary"] { --tone: var(--arm-primary); --tone-hover: var(--arm-primary-hover); --on-tone: var(--arm-on-primary); }
-  [data-tone="success"] { --tone: var(--arm-success); --on-tone: var(--arm-on-success); }
-  [data-tone="info"]    { --tone: var(--arm-info);    --on-tone: var(--arm-on-info); }
-  [data-tone="warning"] { --tone: var(--arm-warning); --on-tone: var(--arm-on-warning); }
-  [data-tone="danger"]  { --tone: var(--arm-danger);  --on-tone: var(--arm-on-danger); }
-  [data-tone="purple"]  { --tone: var(--arm-purple);  --on-tone: var(--arm-on-purple); }
-  [data-tone="pink"]    { --tone: var(--arm-pink);    --on-tone: var(--arm-on-pink); }
-  [data-tone="orange"]  { --tone: var(--arm-orange);  --on-tone: var(--arm-on-orange); }
-  [data-tone="yellow"]  { --tone: var(--arm-yellow);  --on-tone: var(--arm-on-yellow); }
-  [data-tone="teal"]    { --tone: var(--arm-teal);    --on-tone: var(--arm-on-teal); }
 
   /* ---------- Icon ---------- */
   .arm-icon { display: inline-flex; flex: none; width: 1.15em; height: 1.15em; }
@@ -276,7 +263,10 @@
   .arm-input__control::placeholder { color: var(--arm-text-subtle); }
   .arm-input__control:disabled { cursor: not-allowed; }
   /* 16px stops iOS from zooming into focused fields. */
-  @media (pointer: coarse) { .arm-input__control { font-size: 16px; } }
+  @media (pointer: coarse) {
+    .arm-input__control { font-size: 16px; }
+    .arm-btn::after { content: ""; position: absolute; inset: min(0px, calc((var(--h) - 44px) / 2)) 0; } /* 44px tap target without growing the button */
+  }
 
   .arm-input__icon { color: var(--arm-text-subtle); }
   .arm-input__affix { color: var(--arm-text-muted); font-size: var(--arm-fs-sm); white-space: nowrap; }
@@ -287,7 +277,7 @@
   }
   .arm-input__action:hover { background: var(--arm-hover); color: var(--arm-text); }
 
-  textarea.arm-input__control { padding: 8px 0; resize: vertical; line-height: var(--arm-lh); }
+  textarea.arm-input__control { padding: 8px 0; resize: none; line-height: var(--arm-lh); } /* field-sizing grows it; no grey corner handle */
   .arm-input:has(textarea) { height: auto; align-items: flex-start; }
 
   /* ---------- Theme switcher icons ---------- */
@@ -312,5 +302,19 @@
 
 /* ========================================================================== Utilities */
 @layer arm.utilities {
+  /* ---------- Tones (utilities layer so data-tone always beats a component default) ---------- */
+  [data-tone] { --tone-hover: color-mix(in oklab, var(--tone) 86%, var(--arm-mix)); }
+  [data-tone="neutral"] { --tone: var(--arm-inverse); --tone-hover: var(--arm-inverse-hover); --on-tone: var(--arm-on-inverse); }
+  [data-tone="primary"] { --tone: var(--arm-primary); --tone-hover: var(--arm-primary-hover); --on-tone: var(--arm-on-primary); }
+  [data-tone="success"] { --tone: var(--arm-success); --on-tone: var(--arm-on-success); }
+  [data-tone="info"]    { --tone: var(--arm-info);    --on-tone: var(--arm-on-info); }
+  [data-tone="warning"] { --tone: var(--arm-warning); --on-tone: var(--arm-on-warning); }
+  [data-tone="danger"]  { --tone: var(--arm-danger);  --on-tone: var(--arm-on-danger); }
+  [data-tone="purple"]  { --tone: var(--arm-purple);  --on-tone: var(--arm-on-purple); }
+  [data-tone="pink"]    { --tone: var(--arm-pink);    --on-tone: var(--arm-on-pink); }
+  [data-tone="orange"]  { --tone: var(--arm-orange);  --on-tone: var(--arm-on-orange); }
+  [data-tone="yellow"]  { --tone: var(--arm-yellow);  --on-tone: var(--arm-on-yellow); }
+  [data-tone="teal"]    { --tone: var(--arm-teal);    --on-tone: var(--arm-on-teal); }
+
   .arm-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 }

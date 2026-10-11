@@ -6,6 +6,7 @@
         <input type="text" x-ref="input" x-model="query" placeholder="{{ $placeholder ?? __('Search or jump to…') }}" autocomplete="off"
             x-on:keydown.down.prevent="move(1)" x-on:keydown.up.prevent="move(-1)" x-on:keydown.enter.prevent="run(filtered[active])">
         <kbd class="arm-kbd arm-kbd--hint">Esc</kbd>
+        <button type="button" class="arm-command__cancel" x-on:click="$el.closest('dialog').close()">{{ __('Cancel') }}</button>
     </div>
     <div class="arm-command__list" role="listbox">
         <template x-for="(item, i) in filtered" :key="item.label + i">

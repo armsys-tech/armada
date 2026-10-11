@@ -109,6 +109,22 @@
     }));
 
     /* ---------- Dropdown / popover ---------- */
+    // Tooltip: fixed-positioned on show so overflow:hidden ancestors (cards, tables) can't clip it.
+    Alpine.data('armTooltip', () => ({
+      place() {
+        const tip = this.$refs.tip; if (!tip) return;
+        const r = this.$el.getBoundingClientRect(), pos = tip.dataset.position, gap = 8;
+        tip.style.position = 'fixed'; tip.style.inset = 'auto'; tip.style.transform = 'none';
+        const w = tip.offsetWidth, h = tip.offsetHeight;
+        let x = r.left + r.width / 2 - w / 2, y = r.top - h - gap;
+        if (pos === 'bottom') y = r.bottom + gap;
+        if (pos === 'left') { x = r.left - w - gap; y = r.top + r.height / 2 - h / 2; }
+        if (pos === 'right') { x = r.right + gap; y = r.top + r.height / 2 - h / 2; }
+        x = Math.max(8, Math.min(x, innerWidth - w - 8)); y = Math.max(8, Math.min(y, innerHeight - h - 8));
+        tip.style.left = x + 'px'; tip.style.top = y + 'px';
+      },
+    }));
+
     Alpine.data('armDropdown', () => ({
       open: false,
       toggle() { this.open ? this.close() : this.show(); },

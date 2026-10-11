@@ -8,8 +8,7 @@
     'card' => true,
 ])
 @php $up = $trend !== null && $trend >= 0; @endphp
-@if ($card)<armada:card {{ $attributes }}>@endif
-<div @class(['arm-stat']) @unless ($card) {{ $attributes }} @endunless>
+<div {{ $attributes->class(['arm-stat', 'arm-card arm-stat--card' => $card]) }}>
     <div class="arm-stat__label">@if ($icon)<armada:icon :name="$icon" />@endif{{ $label }}</div>
     <div class="arm-stat__value">{{ $value }}</div>
     @if ($trend !== null || $description)
@@ -19,9 +18,8 @@
                     <armada:icon :name="$up ? 'trending-up' : 'trending-down'" />{{ $up ? '+' : '' }}{{ $trend }}%
                 </span>
             @endif
-            {{ $description }}
+            @if ($description)<span class="arm-stat__description">{{ $description }}</span>@endif
         </div>
     @endif
     @if ($sparkline)<armada:sparkline :values="$sparkline" :tone="$up || $trend === null ? 'primary' : 'danger'" style="margin-top:6px" />@endif
 </div>
-@if ($card)</armada:card>@endif

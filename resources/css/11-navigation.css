@@ -90,6 +90,10 @@
   }
   .arm-bottom-nav__indicator > .arm-icon { width: 22px; height: 22px; }
   .arm-bottom-nav__label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 2px; }
+  /* 5+ items (or 4 + FAB): tighter labels and a narrower pill so "Ana sayfa" fits a 360px phone */
+  .arm-bottom-nav:has(.arm-bottom-nav__item:nth-child(5)) .arm-bottom-nav__item { font-size: 10px; letter-spacing: -.01em; }
+  .arm-bottom-nav:has(.arm-bottom-nav__item:nth-child(5)) .arm-bottom-nav__indicator { width: 48px; }
+  .arm-bottom-nav:has(.arm-bottom-nav__item:nth-child(5)) .arm-bottom-nav__label { padding: 0; }
   .arm-bottom-nav__item[aria-current="page"] { color: var(--arm-text); font-weight: 600; }
   .arm-bottom-nav__item[aria-current="page"] .arm-bottom-nav__indicator { background: color-mix(in srgb, var(--arm-primary) 18%, transparent); color: var(--arm-primary); }
   .arm-bottom-nav__item:active .arm-bottom-nav__indicator { background: var(--arm-active); }
@@ -117,15 +121,18 @@
   .arm-breadcrumbs a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
   .arm-breadcrumbs a:hover { color: var(--arm-text); }
   .arm-breadcrumbs [aria-current="page"] { color: var(--arm-text); font-weight: 500; }
-  @media (max-width: 639px) { .arm-breadcrumbs li:not(:nth-last-child(-n+2)) { display: none; } }
+  @media (max-width: 639px) {
+    .arm-breadcrumbs li:not(:nth-last-child(-n+2)) { display: none; }
+    .arm-breadcrumbs li:nth-last-child(2)::before { display: none; } /* first visible item carries no separator */
+  }
 
   /* ---------- Tabs ---------- */
   .arm-tabs {
     display: flex; gap: 4px; min-width: 0; overflow-x: auto; scrollbar-width: none;
     border-bottom: 1px solid var(--arm-border);
-    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent);
   }
-  .arm-tabs:not(:has(:nth-child(6))) { mask-image: none; }
+  .arm-tabs[data-fade] { mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); } /* only while something is actually hidden to the right */
+  .arm-tabs--segment[data-fade] { mask-image: none; }
   .arm-tabs::-webkit-scrollbar { display: none; }
   .arm-tab {
     position: relative; display: inline-flex; align-items: center; gap: 8px; flex: none;
@@ -189,7 +196,7 @@
   /* ---------- Stepper ---------- */
   .arm-stepper { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: arm-step; }
   .arm-stepper__step { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; }
-  .arm-stepper__step:not(:last-child)::after { content: ""; flex: 1; min-width: 16px; height: 2px; border-radius: 2px; background: var(--arm-border); }
+  .arm-stepper__step:not(:last-child)::after { content: ""; flex: 1; min-width: 24px; height: 2px; border-radius: 2px; background: var(--arm-border); }
   .arm-stepper__step[data-state="complete"]:not(:last-child)::after { background: var(--arm-primary); }
   .arm-stepper__marker {
     flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
@@ -199,6 +206,7 @@
   .arm-stepper__step[data-state="complete"] .arm-stepper__marker { border-color: var(--arm-primary); background: var(--arm-primary); color: var(--arm-on-primary); }
   .arm-stepper__step[data-state="error"] .arm-stepper__marker { border-color: var(--arm-danger); background: var(--arm-danger); color: #fff; }
   .arm-stepper__text { display: grid; min-width: 0; line-height: 1.3; flex: none; max-width: 180px; }
+  .arm-stepper__step:last-child { flex: none; } /* the last step takes no connector space, so earlier connectors share the width evenly */
   .arm-stepper__label { font-size: var(--arm-fs-sm); font-weight: 600; color: var(--arm-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .arm-stepper__step:not([data-state="current"]):not([data-state="complete"]) .arm-stepper__label { color: var(--arm-text-muted); }
   .arm-stepper__description { font-size: var(--arm-fs-xs); color: var(--arm-text-subtle); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -206,7 +214,7 @@
 
   .arm-stepper--vertical { flex-direction: column; gap: 0; }
   .arm-stepper--vertical .arm-stepper__step { flex-wrap: wrap; align-items: flex-start; min-height: 64px; position: relative; }
-  .arm-stepper--vertical .arm-stepper__step:not(:last-child)::after { position: absolute; left: 14px; top: 36px; bottom: 4px; width: 2px; height: auto; min-width: 0; flex: none; }
+  .arm-stepper--vertical .arm-stepper__step:not(:last-child)::after { position: absolute; left: 14px; top: 30px; bottom: 0; width: 2px; height: auto; min-width: 0; flex: none; } /* marker to marker, no gaps */
   .arm-stepper--vertical .arm-stepper__text { max-width: none; flex: 1; padding-top: 4px; }
   .arm-stepper--vertical .arm-stepper__description { white-space: normal; }
 

@@ -5,7 +5,7 @@
     $selected = $key && ! $attributes->whereStartsWith('wire:model')->first() ? old($key, $selected) : $selected;
 @endphp
 <armada:field :label="$label" :description="$description" :badge="$badge" :for="$id" :name="$key" :required="$required">
-    <select {{ $attributes->class(['arm-select', 'arm-select--'.$size => $size !== 'md'])->merge([
+    <span class="arm-select-wrap"><select {{ $attributes->class(['arm-select', 'arm-select--'.$size => $size !== 'md'])->merge([
         'id' => $id, 'name' => $name, 'required' => $required, 'aria-invalid' => $invalid ? 'true' : null,
     ]) }}>
         @if ($placeholder)<option value="" disabled @selected($selected === null)>{{ $placeholder }}</option>@endif
@@ -13,5 +13,5 @@
             <option value="{{ $opt['value'] }}" @selected((string) $opt['value'] === (string) $selected) @disabled($opt['disabled'] ?? false)>{{ $opt['label'] }}</option>
         @endforeach
         {{ $slot }}
-    </select>
+    </select></span>
 </armada:field>
