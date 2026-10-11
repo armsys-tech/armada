@@ -19,6 +19,8 @@ class ArmadaServiceProvider extends ServiceProvider
 
         Blade::anonymousComponentPath(__DIR__.'/../resources/views/components', 'armada');
 
+        $this->loadJsonTranslationsFrom(__DIR__.'/../lang');
+
         $this->app['blade.compiler']->prepareStringsForCompilationUsing(
             fn (string $value) => TagCompiler::compile($value)
         );

@@ -2,6 +2,8 @@
 
 namespace Armada;
 
+use Illuminate\Support\Str;
+use Illuminate\View\ComponentAttributeBag;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -35,6 +37,37 @@ final class Armada
         }
 
         return $html;
+    }
+
+    /**
+     * Name, validation key, id and invalid flag for a form control.
+     * The name falls back to the wire:model property; items[0][email] maps to the key items.0.email.
+     *
+     * @return array{0: ?string, 1: ?string, 2: string, 3: bool}
+     */
+    public static function field(ComponentAttributeBag $attributes, ?string $name, $errors = null): array
+    {
+        $name ??= $attributes->whereStartsWith('wire:model')->first();
+        $key = $name ? rtrim(str_replace(['[', ']'], ['.', ''], $name), '.') : null;
+        $id = $attributes->get('id') ?? ($key ? 'arm-'.str_replace('.', '-', $key) : 'arm-'.Str::lower(Str::random(8)));
+        $invalid = $key !== null && $errors !== null && $errors->has($key);
+
+        return [$name, $key, $id, $invalid];
+    }
+
+    /** Normalises ['a' => 'A'], ['A', 'B'] or [['value' => …, 'label' => …], …] into a list of option arrays. */
+    public static function options(iterable $options): array
+    {
+        $list = [];
+        $isList = is_array($options) && array_is_list($options);
+
+        foreach ($options as $value => $option) {
+            $list[] = is_array($option)
+                ? $option + ['value' => $option['value'] ?? $value, 'label' => $option['label'] ?? (string) ($option['value'] ?? $value)]
+                : ['value' => $isList ? $option : $value, 'label' => (string) $option];
+        }
+
+        return $list;
     }
 
     public static function icon(string $name): string
