@@ -122,6 +122,8 @@
     display: flex; align-items: center; gap: 10px; min-height: 34px; padding: 6px 10px; border-radius: var(--arm-radius-md);
     color: var(--arm-text-secondary); cursor: pointer; user-select: none;
   }
+  button.arm-option { width: 100%; border: 0; background: none; font: inherit; text-align: start; outline: 0; }
+  button.arm-option:hover, button.arm-option:focus-visible { background: var(--arm-active); color: var(--arm-text); }
   .arm-option[data-active] { background: var(--arm-active); color: var(--arm-text); }
   .arm-option[aria-selected="true"] { color: var(--arm-text); font-weight: 500; }
   .arm-option__check { margin-inline-start: auto; color: var(--arm-primary); visibility: hidden; }

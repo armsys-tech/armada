@@ -5,6 +5,7 @@
     'iconTone' => null,
     'avatar' => null,     // image URL or a name
     'href' => null,
+    'leading' => null,    // slot: anything left of the text (overrides avatar/icon)
     'trailing' => null,   // slot or text
     'chevron' => null,    // default: on for links
     'active' => false,
@@ -15,7 +16,9 @@
 @endphp
 <{{ $tag }} @if ($href) href="{{ $href }}" @elseif ($tag === 'button') type="button" @endif
     {{ $attributes->class(['arm-list__item', 'is-active' => $active]) }} role="listitem">
-    @if ($avatar)
+    @if ($leading)
+        <span class="arm-list__leading">{{ $leading }}</span>
+    @elseif ($avatar)
         <span class="arm-list__leading"><armada:avatar :src="str_contains($avatar, '/') ? $avatar : null" :name="str_contains($avatar, '/') ? null : $avatar" /></span>
     @elseif ($icon)
         <span class="arm-list__leading"><span class="arm-list__icon-box" @if ($iconTone) data-tone="{{ $iconTone }}" @endif><armada:icon :name="$icon" size="lg" /></span></span>

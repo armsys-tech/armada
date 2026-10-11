@@ -366,6 +366,8 @@
   .arm-accordion--bordered .arm-accordion__item > summary, .arm-accordion--separated .arm-accordion__item > summary { padding-inline: 16px; }
   .arm-accordion__item > summary::-webkit-details-marker { display: none; }
   .arm-accordion__item > summary > .arm-icon:first-child { width: 18px; height: 18px; color: var(--arm-text-muted); }
+  .arm-accordion__heading { flex: 1; min-width: 0; }
+  .arm-accordion__trailing { display: inline-flex; align-items: center; gap: 6px; font-weight: 400; }
   .arm-accordion__chevron { margin-inline-start: auto; color: var(--arm-text-subtle); transition: transform var(--arm-dur) var(--arm-ease); }
   .arm-accordion__item[open] > summary .arm-accordion__chevron { transform: rotate(180deg); }
   .arm-accordion__content { padding: 0 4px 16px; color: var(--arm-text-muted); }

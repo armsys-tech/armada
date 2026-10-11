@@ -219,6 +219,171 @@
       },
     }));
 
+    /* ---------- Time picker ---------- */
+    Alpine.data('armTimePicker', ({ value, step, min, max, hour12 }) => ({
+      value, open: false,
+      options() {
+        const out = [];
+        for (let m = 0; m < 1440; m += step) {
+          const t = `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+          if ((!min || t >= min) && (!max || t <= max)) out.push(t);
+        }
+        return out;
+      },
+      label(t) {
+        if (!hour12) return t;
+        const [h, m] = t.split(':').map(Number);
+        return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`;
+      },
+      toggle() {
+        this.open = !this.open;
+        // after x-show paints; scrollTop (not scrollIntoView) so the page itself never jumps
+        if (this.open) requestAnimationFrame(() => requestAnimationFrame(() => {
+          const l = this.$refs.list, s = l.querySelector('[aria-selected="true"]');
+          if (s) l.scrollTop = s.offsetTop - (l.clientHeight - s.offsetHeight) / 2;
+        }));
+      },
+    }));
+
+    /* ---------- Event calendar ---------- */
+    Alpine.data('armCalendar', ({ events, month, locale }) => ({
+      events, view: month ? parse(`${month}-01`) : new Date(), selected: iso(new Date()),
+      init() { this.view = new Date(this.view.getFullYear(), this.view.getMonth(), 1); },
+      title() { return this.view.toLocaleDateString(locale, { month: 'long', year: 'numeric' }); },
+      weekdays() { return [...Array(7)].map((_, i) => new Date(2024, 0, i + 1).toLocaleDateString(locale, { weekday: 'short' })); },
+      eventsOn(s) { return this.events.filter((e) => e.date === s).sort((a, b) => (a.time ?? '').localeCompare(b.time ?? '')); },
+      days() {
+        const first = new Date(this.view.getFullYear(), this.view.getMonth(), 1);
+        const start = new Date(first); start.setDate(1 - ((first.getDay() + 6) % 7));
+        const today = iso(new Date());
+        return [...Array(42)].map((_, i) => {
+          const d = new Date(start); d.setDate(start.getDate() + i);
+          const s = iso(d);
+          return { iso: s, n: d.getDate(), outside: d.getMonth() !== this.view.getMonth(), today: s === today, events: this.eventsOn(s) };
+        });
+      },
+      shift(n) { this.view = new Date(this.view.getFullYear(), this.view.getMonth() + n, 1); },
+      today() { const t = new Date(); this.view = new Date(t.getFullYear(), t.getMonth(), 1); this.pick(iso(t)); },
+      pick(s) { this.selected = s; this.$dispatch('calendar-select', { date: s }); },
+      selectedLabel() { return parse(this.selected).toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' }); },
+    }));
+
+    /* ---------- Kanban: pointer-driven drag (mouse, pen, touch) ---------- */
+    Alpine.data('armKanban', (handler) => ({
+      init() { this.$el.addEventListener('pointerdown', (e) => this.start(e)); },
+      start(e) {
+        const card = e.target.closest('[data-draggable]');
+        if (!card || e.button > 0 || e.target.closest('a, button, input, select, textarea')) return;
+        const touch = e.pointerType === 'touch';
+        let timer = null, drag = null;
+        const x0 = e.clientX, y0 = e.clientY;
+        const begin = () => {
+          const r = card.getBoundingClientRect();
+          const ghost = card.cloneNode(true);
+          ghost.classList.add('arm-kanban__ghost');
+          Object.assign(ghost.style, { width: `${r.width}px`, left: `${r.left}px`, top: `${r.top}px` });
+          document.body.appendChild(ghost);
+          card.classList.add('is-placeholder');
+          drag = { ghost, dx: x0 - r.left, dy: y0 - r.top, from: card.closest('[data-column]').dataset.column };
+          navigator.vibrate?.(8);
+        };
+        const move = (ev) => {
+          if (!drag) {
+            if (Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) { if (touch) return end(); begin(); } else return; // touch: moving before the long-press means scrolling
+          }
+          ev.preventDefault();
+          drag.ghost.style.left = `${ev.clientX - drag.dx}px`; drag.ghost.style.top = `${ev.clientY - drag.dy}px`;
+          const list = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('.arm-kanban__column')?.querySelector('[data-cards]');
+          if (!list || !this.$el.contains(list)) return;
+          const after = [...list.querySelectorAll('[data-item]:not(.is-placeholder)')].find((c) => { const b = c.getBoundingClientRect(); return ev.clientY < b.top + b.height / 2; });
+          after ? list.insertBefore(card, after) : list.appendChild(card);
+          // edge auto-scroll for wide boards
+          const box = this.$el.getBoundingClientRect();
+          if (ev.clientX > box.right - 40) this.$el.scrollLeft += 12; else if (ev.clientX < box.left + 40) this.$el.scrollLeft -= 12;
+        };
+        const block = (ev) => { if (drag) ev.preventDefault(); }; // after the long-press the finger drags the card, not the page
+        const end = () => {
+          clearTimeout(timer);
+          removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end);
+          removeEventListener('touchmove', block); removeEventListener('contextmenu', block);
+          if (!drag) return;
+          drag.ghost.remove(); card.classList.remove('is-placeholder');
+          const column = card.closest('[data-column]').dataset.column;
+          const index = [...card.parentNode.querySelectorAll('[data-item]')].indexOf(card);
+          const detail = { item: card.dataset.item, from: drag.from, to: column, index };
+          this.$dispatch('kanban-move', detail);
+          if (handler && this.$wire) this.$wire[handler](detail.item, detail.to, detail.index);
+        };
+        if (touch) timer = setTimeout(begin, 250);
+        addEventListener('pointermove', move, { passive: false }); addEventListener('pointerup', end); addEventListener('pointercancel', end);
+        addEventListener('touchmove', block, { passive: false }); addEventListener('contextmenu', block);
+      },
+    }));
+
+    /* ---------- Rich text editor (contenteditable + execCommand; sanitise on the server) ---------- */
+    Alpine.data('armEditor', ({ value, plainPaste }) => ({
+      value, active: [],
+      init() {
+        this.$refs.content.innerHTML = this.value ?? '';
+        this.empty();
+        // external changes (Livewire reset) flow back into the editor
+        this.$watch('value', (v) => { if (v !== this.$refs.content.innerHTML) { this.$refs.content.innerHTML = v ?? ''; this.empty(); } });
+      },
+      empty() { this.$refs.content.classList.toggle('is-empty', !this.$refs.content.textContent.trim() && !this.$refs.content.querySelector('img, li')); },
+      sync() { this.value = this.$refs.content.innerHTML; this.empty(); this.state(); },
+      run(tool) {
+        this.$refs.content.focus();
+        const block = (tag) => document.execCommand('formatBlock', false, document.queryCommandValue('formatBlock').toLowerCase() === tag ? 'p' : tag);
+        ({
+          bold: () => document.execCommand('bold'), italic: () => document.execCommand('italic'), underline: () => document.execCommand('underline'),
+          strike: () => document.execCommand('strikeThrough'), ul: () => document.execCommand('insertUnorderedList'), ol: () => document.execCommand('insertOrderedList'),
+          h2: () => block('h2'), h3: () => block('h3'), quote: () => block('blockquote'), code: () => block('pre'),
+          clear: () => { document.execCommand('removeFormat'); document.execCommand('formatBlock', false, 'p'); },
+          link: () => {
+            const current = window.getSelection()?.anchorNode?.parentElement?.closest('a')?.href ?? 'https://';
+            const url = prompt('URL', current);
+            if (url === null) return;
+            url ? document.execCommand('createLink', false, url) : document.execCommand('unlink');
+          },
+        })[tool]?.();
+        this.sync();
+      },
+      state() {
+        const q = (c) => { try { return document.queryCommandState(c); } catch { return false; } };
+        const b = (document.queryCommandValue('formatBlock') || '').toLowerCase();
+        this.active = [q('bold') && 'bold', q('italic') && 'italic', q('underline') && 'underline', q('strikeThrough') && 'strike',
+          q('insertUnorderedList') && 'ul', q('insertOrderedList') && 'ol', b === 'h2' && 'h2', b === 'h3' && 'h3', b === 'blockquote' && 'quote', b === 'pre' && 'code'].filter(Boolean);
+      },
+      paste(e) {
+        if (!plainPaste) return;
+        e.preventDefault();
+        document.execCommand('insertText', false, e.clipboardData.getData('text/plain'));
+      },
+    }));
+
+    /* ---------- Infinite scroll ---------- */
+    Alpine.data('armInfinite', (action, margin) => ({
+      loading: false, observed: 'IntersectionObserver' in window,
+      init() {
+        if (!this.observed) return;
+        this.io = new IntersectionObserver((entries) => entries[0].isIntersecting && this.load(), { rootMargin: margin });
+        this.io.observe(this.$el);
+      },
+      async load() {
+        if (this.loading || !this.$el.hasAttribute('data-more')) return;
+        this.loading = true;
+        try {
+          if (action && this.$wire) await this.$wire[action]();
+          else { this.$dispatch('load-more'); await new Promise((r) => setTimeout(r, 300)); }
+        } finally {
+          this.loading = false;
+          // still visible after the new items arrived (short pages): keep going
+          if (this.observed) { this.io.unobserve(this.$el); this.io.observe(this.$el); }
+        }
+      },
+      destroy() { this.io?.disconnect(); },
+    }));
+
     /* ---------- OTP ---------- */
     Alpine.data('armOtp', (length) => ({
       value: '',

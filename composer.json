@@ -3,23 +3,48 @@
     "description": "Blade and Livewire UI components for Laravel: light/dark themes, mobile-first, no Tailwind required.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "livewire", "blade", "ui", "components", "design-system"],
-    "authors": [{ "name": "Armsys Technology" }],
+    "keywords": [
+        "laravel",
+        "livewire",
+        "blade",
+        "ui",
+        "components",
+        "design-system",
+        "alpine",
+        "dark-mode",
+        "mobile-first"
+    ],
+    "homepage": "https://github.com/armsys-tech/armada",
+    "support": {
+        "issues": "https://github.com/armsys-tech/armada/issues",
+        "source": "https://github.com/armsys-tech/armada"
+    },
+    "authors": [
+        {
+            "name": "Armsys Technology",
+            "homepage": "https://github.com/armsys-tech"
+        }
+    ],
     "require": {
         "php": "^8.3",
         "illuminate/support": "^12.0|^13.0",
         "illuminate/view": "^12.0|^13.0"
     },
     "suggest": {
-        "livewire/livewire": "wire:model, loading states and server-side toasts"
+        "livewire/livewire": "^3.0|^4.0 for wire:model, loading states and server-side toasts"
     },
     "autoload": {
-        "psr-4": { "Armada\\": "src/" }
+        "psr-4": {
+            "Armada\\": "src/"
+        }
     },
     "extra": {
         "laravel": {
-            "providers": ["Armada\\ArmadaServiceProvider"]
+            "providers": [
+                "Armada\\ArmadaServiceProvider"
+            ]
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
