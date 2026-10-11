@@ -8,3 +8,4 @@
 /build.mjs        export-ignore
 /tests            export-ignore
 /CONTRIBUTING.md  export-ignore
+/docs             export-ignore

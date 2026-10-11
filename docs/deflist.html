@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#09090b">
+    <title>Tanım listesi · Armada</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="assets/armada.css"><script>(()=>{let m="system";try{m=localStorage.getItem("arm-theme")||m}catch(e){}const d=m==="dark"||(m==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.dataset.armTheme=d?"dark":"light"})()</script>    <style>
+        .sc-hero { position: relative; padding: 24px 0 8px; }
+        .sc-hero h1 { margin: 12px 0 0; }
+        .sc-hero .arm-text--lg { max-width: 640px; margin-top: 14px; }
+        .sc-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+        .sc-section-title { display: flex; align-items: center; gap: 10px; margin: 44px 0 16px; }
+        .sc-section-title .arm-icon { width: 18px; height: 18px; color: var(--arm-text-muted); }
+        .sc-page-card { display: flex; gap: 14px; align-items: flex-start; padding: 16px; height: 100%; }
+        .sc-page-card .arm-list__icon-box { flex: none; }
+        .sc-page-card h3 { margin: 0; font-size: var(--arm-fs-md); font-weight: 600; color: var(--arm-text); }
+        .sc-page-card p { margin: 3px 0 0; font-size: var(--arm-fs-sm); color: var(--arm-text-muted); line-height: 1.45; }
+        .sc-example { margin-top: 36px; scroll-margin-top: calc(var(--arm-header-h) + 16px); }
+        .sc-example__head { margin-bottom: 12px; }
+        .sc-example__head p { margin: 4px 0 0; color: var(--arm-text-muted); font-size: var(--arm-fs-sm); }
+        .sc-preview {
+            padding: 28px; border: 1px solid var(--arm-border); border-radius: var(--arm-radius-xl) var(--arm-radius-xl) 0 0; min-width: 0;
+            background: var(--arm-bg-alt) radial-gradient(color-mix(in srgb, var(--arm-text) 7%, transparent) 1px, transparent 1px) 0 0 / 16px 16px;
+        }
+        .sc-code > summary { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; cursor: pointer; list-style: none;
+            border: 1px solid var(--arm-border); border-top: 0; border-radius: 0 0 var(--arm-radius-xl) var(--arm-radius-xl);
+            font-size: var(--arm-fs-sm); color: var(--arm-text-muted); background: var(--arm-surface-1); }
+        .sc-code > summary::-webkit-details-marker { display: none; }
+        .sc-code > summary:hover { color: var(--arm-text); }
+        .sc-code[open] > summary { border-radius: 0; }
+        .sc-code > .arm-code { border-radius: 0 0 var(--arm-radius-xl) var(--arm-radius-xl); border-top: 0; }
+        .sc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+        .sc-col { display: grid; gap: 16px; }
+        .sc-narrow { max-width: 420px; }
+        .sc-phone { width: 360px; max-width: 100%; height: 560px; margin: 0 auto; border: 8px solid var(--arm-surface-3); border-radius: 36px; overflow: hidden; display: flex; flex-direction: column; background: var(--arm-bg); box-shadow: var(--arm-shadow-lg); }
+        .sc-phone__body { flex: 1; overflow: auto; padding: 16px; }
+        .sc-box { padding: 16px; border-radius: var(--arm-radius-md); background: color-mix(in srgb, var(--arm-primary) 12%, transparent); color: var(--arm-text); text-align: center; font-size: var(--arm-fs-sm); }
+        .sc-slide { display: grid; place-items: center; height: 200px; border-radius: var(--arm-radius-lg); color: #fff; font-size: 1.5rem; font-weight: 700; }
+        .sc-frame { height: 480px; border: 1px solid var(--arm-border); border-radius: var(--arm-radius-lg); overflow: hidden; background: var(--arm-bg); }
+        .sc-frame > .arm-app { min-height: 0; height: 100%; }
+        .sc-frame .arm-sidebar { position: relative; height: 100%; }
+        .sc-frame .arm-app__main { overflow: auto; }
+        .sc-frame .arm-app__content { padding: 24px; }
+        .sc-props { margin-top: 48px; }
+        .sc-props h3 { margin: 24px 0 10px; font-family: var(--arm-font-mono); font-size: var(--arm-fs-md); }
+        .sc-props code { font-family: var(--arm-font-mono); font-size: 12.5px; }
+        .sc-props__table .arm-table { table-layout: fixed; }
+        .sc-props__table th:nth-child(1) { width: 28%; } .sc-props__table th:nth-child(2) { width: 24%; }
+        .sc-props__table--no-note th:nth-child(2) { width: 72%; }
+        @media (max-width: 639px) {
+            .sc-props__table .sc-props__note:not([data-label]) { display: none; }
+            .sc-props__table .sc-props__note { text-align: start; flex-direction: column; align-items: flex-start; gap: 2px; }
+        }
+        .sc-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 56px; }
+        .sc-pager__card .arm-card__body { display: grid; gap: 2px; padding: 14px 16px; }
+        .sc-pager small { color: var(--arm-text-subtle); font-size: var(--arm-fs-xs); }
+        .sc-pager strong { color: var(--arm-text); font-weight: 600; }
+        .sc-search { width: 260px; justify-content: flex-start; color: var(--arm-text-subtle); }
+        .sc-search .arm-kbd { margin-inline-start: auto; }
+        @media (max-width: 639px) {
+            .sc-preview { padding: 18px 14px; }
+            .sc-search { display: none; }
+            .sc-hero { padding-top: 4px; }
+        }
+    </style>
+</head>
+<body>
+<div class="arm-app" x-data="armApp" x-bind:class="{ 'arm-app--collapsed': collapsed }" x-on:keydown.escape.window="open = false">
+    <aside class="arm-sidebar"
+    x-bind:class="{ 'is-open': open }"
+    x-on:click="if ($event.target.closest('a[href]')) open = false">
+            <div class="arm-sidebar__header"><a  href="index.html"  class="arm-brand">
+    <span class="arm-brand__logo">
+        <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v16"/><path d="m19 13 2-1a9 9 0 0 1-18 0l2 1"/><path d="M9 11h6"/><circle cx="12" cy="4" r="2"/></svg></span>
+            </span>
+    <span class="arm-brand__name">Armada</span></a>
+                <span data-tone="neutral" class="arm-badge arm-badge--sm arm-rail-hidden">
+            v1.0
+</span></div>
+        <div class="arm-sidebar__body"><nav class="arm-navlist"><div class="arm-navlist__group" role="group" >
+                <div class="arm-navlist__items"><a  href="index.html"     title="Genel bakış" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+    <span class="arm-navlist__label">Genel bakış</span>
+    </a>
+                    <a  href="https://github.com/armsys-tech/armada#forms-and-livewire"     title="Livewire örneği" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></svg></span>
+    <span class="arm-navlist__label">Livewire örneği</span>
+    </a></div>
+    </div>
+                                    <details class="arm-navlist__group"  open >
+        <summary class="arm-navlist__heading">Düzen<span class="arm-icon arm-icon--sm arm-navlist__chevron" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+</summary>
+        <div class="arm-navlist__items"><a  href="app-shell.html"     title="Uygulama kabuğu" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></span>
+    <span class="arm-navlist__label">Uygulama kabuğu</span>
+    </a>
+                                                    <a  href="card.html"     title="Kart" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/></svg></span>
+    <span class="arm-navlist__label">Kart</span>
+    </a>
+                                                    <a  href="layout-helpers.html"     title="Container, stack, grid" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+    <span class="arm-navlist__label">Container, stack, grid</span>
+    </a>
+                                                    <a  href="page-header.html"     title="Sayfa başlığı ve araç çubuğu" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h12"/><path d="M6 20V4"/><path d="M18 20V4"/></svg></span>
+    <span class="arm-navlist__label">Sayfa başlığı ve araç çubuğu</span>
+    </a></div>
+    </details>
+                                    <details class="arm-navlist__group"  open >
+        <summary class="arm-navlist__heading">Navigasyon<span class="arm-icon arm-icon--sm arm-navlist__chevron" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+</summary>
+        <div class="arm-navlist__items"><a  href="navlist.html"     title="Gezinme listesi" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5h13"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="M3 10a2 2 0 0 0 2 2h3"/><path d="M3 5v12a2 2 0 0 0 2 2h3"/></svg></span>
+    <span class="arm-navlist__label">Gezinme listesi</span>
+    </a>
+                                                    <a  href="bottom-nav.html"     title="Alt gezinme" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span>
+    <span class="arm-navlist__label">Alt gezinme</span>
+    </a>
+                                                    <a  href="navbar.html"     title="Üst menü" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/></svg></span>
+    <span class="arm-navlist__label">Üst menü</span>
+    </a>
+                                                    <a  href="breadcrumbs.html"     title="Breadcrumb" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg></span>
+    <span class="arm-navlist__label">Breadcrumb</span>
+    </a>
+                                                    <a  href="tabs.html"     title="Sekmeler" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/><path d="M8 10v4"/><path d="M12 10v2"/><path d="M16 10v6"/></svg></span>
+    <span class="arm-navlist__label">Sekmeler</span>
+    </a>
+                                                    <a  href="pagination.html"     title="Sayfalama" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/></svg></span>
+    <span class="arm-navlist__label">Sayfalama</span>
+    </a>
+                                                    <a  href="stepper.html"     title="Adımlar" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5h10"/><path d="M11 12h10"/><path d="M11 19h10"/><path d="M4 4h1v5"/><path d="M4 9h2"/><path d="M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"/></svg></span>
+    <span class="arm-navlist__label">Adımlar</span>
+    </a>
+                                                    <a  href="dropdown.html"     title="Açılır menü" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h10"/></svg></span>
+    <span class="arm-navlist__label">Açılır menü</span>
+    </a>
+                                                    <a  href="command.html"     title="Komut paleti" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></svg></span>
+    <span class="arm-navlist__label">Komut paleti</span>
+    </a>
+                                                    <a  href="lang-switcher.html"     title="Dil seçici" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg></span>
+    <span class="arm-navlist__label">Dil seçici</span>
+    </a></div>
+    </details>
+                                    <details class="arm-navlist__group"  open >
+        <summary class="arm-navlist__heading">Eylemler<span class="arm-icon arm-icon--sm arm-navlist__chevron" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+</summary>
+        <div class="arm-navlist__items"><a  href="button.html"     title="Buton" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>
+    <span class="arm-navlist__label">Buton</span>
+    </a>
+                                                    <a  href="toggle-group.html"     title="Segment kontrol" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></span>
+    <span class="arm-navlist__label">Segment kontrol</span>
+    </a>
+                                                    <a  href="chip.html"     title="Chip" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg></span>
+    <span class="arm-navlist__label">Chip</span>
+    </a>
+                                                    <a  href="fab.html"     title="FAB ve speed dial" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span>
+    <span class="arm-navlist__label">FAB ve speed dial</span>
+    </a></div>
+    </details>
+                                    <details class="arm-navlist__group"  open >
+        <summary class="arm-navlist__heading">Form<span class="arm-icon arm-icon--sm arm-navlist__chevron" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+</summary>
+        <div class="arm-navlist__items"><a  href="input.html"     title="Metin alanı" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h-1a2 2 0 0 1-2-2 2 2 0 0 1-2 2H6"/><path d="M13 8h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-7"/><path d="M5 16H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h1"/><path d="M6 4h1a2 2 0 0 1 2 2 2 2 0 0 1 2-2h1"/><path d="M9 6v12"/></svg></span>
+    <span class="arm-navlist__label">Metin alanı</span>
+    </a>
+                                                    <a  href="textarea.html"     title="Çok satırlı metin" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H3"/><path d="M15 12H3"/><path d="M17 19H3"/></svg></span>
+    <span class="arm-navlist__label">Çok satırlı metin</span>
+    </a>
+                                                    <a  href="select.html"     title="Select" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></span>
+    <span class="arm-navlist__label">Select</span>
+    </a>
+                                                    <a  href="combobox.html"     title="Combobox" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+    <span class="arm-navlist__label">Combobox</span>
+    </a>
+                                                    <a  href="checkbox.html"     title="Checkbox" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m16 9-5.5 5.5L8 12"/></svg></span>
+    <span class="arm-navlist__label">Checkbox</span>
+    </a>
+                                                    <a  href="radio.html"     title="Radio" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="12" r="10"/></svg></span>
+    <span class="arm-navlist__label">Radio</span>
+    </a>
+                                                    <a  href="switch.html"     title="Switch" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/></svg></span>
+    <span class="arm-navlist__label">Switch</span>
+    </a>
+                                                    <a  href="slider.html"     title="Slider" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></svg></span>
+    <span class="arm-navlist__label">Slider</span>
+    </a>
+                                                    <a  href="number-input.html"     title="Sayı girişi" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></span>
+    <span class="arm-navlist__label">Sayı girişi</span>
+    </a>
+                                                    <a  href="otp.html"     title="Doğrulama kodu" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></span>
+    <span class="arm-navlist__label">Doğrulama kodu</span>
+    </a>
+                                                    <a  href="date-picker.html"     title="Tarih seçici" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></span>
+    <span class="arm-navlist__label">Tarih seçici</span>
+    </a>
+                                                    <a  href="time-picker.html"     title="Saat seçici" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+    <span class="arm-navlist__label">Saat seçici</span>
+    </a>
+                                                    <a  href="editor.html"     title="Zengin metin editörü" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4v16"/><path d="M17 4v16"/><path d="M19 4H9.5a4.5 4.5 0 0 0 0 9H13"/></svg></span>
+    <span class="arm-navlist__label">Zengin metin editörü</span>
+    </a>
+                                                    <a  href="color-picker.html"     title="Renk seçici" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg></span>
+    <span class="arm-navlist__label">Renk seçici</span>
+    </a>
+                                                    <a  href="file-upload.html"     title="Dosya yükleme" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="m8 17 4-4 4 4"/></svg></span>
+    <span class="arm-navlist__label">Dosya yükleme</span>
+    </a>
+                                                    <a  href="rating.html"     title="Puanlama" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg></span>
+    <span class="arm-navlist__label">Puanlama</span>
+    </a>
+                                                    <a  href="forms.html"     title="Form düzeni" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg></span>
+    <span class="arm-navlist__label">Form düzeni</span>
+    </a></div>
+    </details>
+                                    <details class="arm-navlist__group"  open >
+        <summary class="arm-navlist__heading">Veri gösterimi<span class="arm-icon arm-icon--sm arm-navlist__chevron" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+</summary>
+        <div class="arm-navlist__items"><a  href="table.html"     title="Tablo" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18"/><path d="M9 3v18"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span>
+    <span class="arm-navlist__label">Tablo</span>
+    </a>
+                                                    <a  href="list.html"     title="Liste" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/></svg></span>
+    <span class="arm-navlist__label">Liste</span>
+    </a>
+                                                    <a  href="calendar.html"     title="Etkinlik takvimi" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M8 13h.01"/><path d="M12 13h.01"/><path d="M16 13h.01"/><path d="M8 17h.01"/><path d="M12 17h.01"/><path d="M16 17h.01"/></svg></span>
+    <span class="arm-navlist__label">Etkinlik takvimi</span>
+    </a>
+                                                    <a  href="kanban.html"     title="Kanban" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 7v7"/><path d="M12 7v4"/><path d="M16 7v9"/></svg></span>
+    <span class="arm-navlist__label">Kanban</span>
+    </a>
+                                                    <a  href="infinite-scroll.html"     title="Sonsuz kaydırma" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V3"/><path d="m6 11 6 6 6-6"/><path d="M19 21H5"/></svg></span>
+    <span class="arm-navlist__label">Sonsuz kaydırma</span>
+    </a>
+                                                    <a  href="video.html"     title="Video" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.296 3.464 3.02 3.956"/><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m6.18 5.276 3.1 3.899"/></svg></span>
+    <span class="arm-navlist__label">Video</span>
+    </a>
+                                                    <a  href="deflist.html"     aria-current="page" title="Tanım listesi" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5h11"/><path d="M10 12h11"/><path d="M10 19h11"/><path d="m3 10 3-3-3-3"/><path d="m3 20 3-3-3-3"/></svg></span>
+    <span class="arm-navlist__label">Tanım listesi</span>
+    </a>
+                                                    <a  href="avatar.html"     title="Avatar" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg></span>
+    <span class="arm-navlist__label">Avatar</span>
+    </a>
+                                                    <a  href="badge.html"     title="Rozet" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m16 9-5.5 5.5L8 12"/></svg></span>
+    <span class="arm-navlist__label">Rozet</span>
+    </a>
+                                                    <a  href="stat.html"     title="İstatistik" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></span>
+    <span class="arm-navlist__label">İstatistik</span>
+    </a>
+                                                    <a  href="timeline.html"     title="Zaman çizelgesi" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6"/><circle cx="12" cy="12" r="3"/><path d="M12 15v6"/></svg></span>
+    <span class="arm-navlist__label">Zaman çizelgesi</span>
+    </a>
+                                                    <a  href="tree.html"     title="Ağaç" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M3 5a2 2 0 0 0 2 2h3"/><path d="M3 3v13a2 2 0 0 0 2 2h3"/></svg></span>
+    <span class="arm-navlist__label">Ağaç</span>
+    </a>
+                                                    <a  href="accordion.html"     title="Akordiyon" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M21 9H3"/><path d="M21 15H3"/></svg></span>
+    <span class="arm-navlist__label">Akordiyon</span>
+    </a>
+                                                    <a  href="carousel.html"     title="Carousel" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3v18"/><rect width="12" height="18" x="6" y="3" rx="2"/><path d="M22 3v18"/></svg></span>
+    <span class="arm-navlist__label">Carousel</span>
+    </a>
+                                                    <a  href="image.html"     title="Görsel" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span>
+    <span class="arm-navlist__label">Görsel</span>
+    </a>
+                                                    <a  href="empty.html"     title="Boş durum" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></span>
+    <span class="arm-navlist__label">Boş durum</span>
+    </a>
+                                                    <a  href="code.html"     title="Kod bloğu" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>
+    <span class="arm-navlist__label">Kod bloğu</span>
+    </a>
+                                                    <a  href="typography.html"     title="Tipografi" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2"/><path d="M9 20h6"/></svg></span>
+    <span class="arm-navlist__label">Tipografi</span>
+    </a></div>
+    </details>
+                                    <details class="arm-navlist__group"  open >
+        <summary class="arm-navlist__heading">Geri bildirim ve overlay<span class="arm-icon arm-icon--sm arm-navlist__chevron" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+</summary>
+        <div class="arm-navlist__items"><a  href="callout.html"     title="Uyarı" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+    <span class="arm-navlist__label">Uyarı</span>
+    </a>
+                                                    <a  href="banner.html"     title="Banner" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg></span>
+    <span class="arm-navlist__label">Banner</span>
+    </a>
+                                                    <a  href="toast.html"     title="Toast" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/></svg></span>
+    <span class="arm-navlist__label">Toast</span>
+    </a>
+                                                    <a  href="modal.html"     title="Modal" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></svg></span>
+    <span class="arm-navlist__label">Modal</span>
+    </a>
+                                                    <a  href="drawer.html"     title="Drawer ve bottom sheet" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/></svg></span>
+    <span class="arm-navlist__label">Drawer ve bottom sheet</span>
+    </a>
+                                                    <a  href="tooltip.html"     title="Tooltip" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></svg></span>
+    <span class="arm-navlist__label">Tooltip</span>
+    </a>
+                                                    <a  href="popover.html"     title="Popover" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M12 11h.01"/><path d="M16 11h.01"/><path d="M8 11h.01"/></svg></span>
+    <span class="arm-navlist__label">Popover</span>
+    </a>
+                                                    <a  href="progress.html"     title="İlerleme" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg></span>
+    <span class="arm-navlist__label">İlerleme</span>
+    </a>
+                                                    <a  href="skeleton.html"     title="Skeleton" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg></span>
+    <span class="arm-navlist__label">Skeleton</span>
+    </a></div>
+    </details>
+                                    <details class="arm-navlist__group"  open >
+        <summary class="arm-navlist__heading">Grafikler<span class="arm-icon arm-icon--sm arm-navlist__chevron" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span>
+</summary>
+        <div class="arm-navlist__items"><a  href="chart.html"     title="Grafik" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span>
+    <span class="arm-navlist__label">Grafik</span>
+    </a>
+                                                    <a  href="heatmap.html"     title="Isı haritası" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg></span>
+    <span class="arm-navlist__label">Isı haritası</span>
+    </a>
+                                                    <a  href="sparkline.html"     title="Sparkline" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg></span>
+    <span class="arm-navlist__label">Sparkline</span>
+    </a>
+                                                    <a  href="donut.html"     title="Halka grafik" class="arm-navlist__item">
+    <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></svg></span>
+    <span class="arm-navlist__label">Halka grafik</span>
+    </a></div>
+    </details></nav></div>
+            <div class="arm-sidebar__footer"><div class="arm-segment arm-rail-hidden" style="width:100%;justify-content:space-between;" x-data role="group" aria-label="Tema">
+                    <button type="button" class="arm-segment__item" aria-label="Açık"
+                x-on:click="$store.armTheme.set('light')"
+                x-bind:aria-pressed="$store.armTheme.mode === 'light'">
+                <span class="arm-icon arm-icon--md" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span>
+            </button>
+                    <button type="button" class="arm-segment__item" aria-label="Koyu"
+                x-on:click="$store.armTheme.set('dark')"
+                x-bind:aria-pressed="$store.armTheme.mode === 'dark'">
+                <span class="arm-icon arm-icon--md" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg></span>
+            </button>
+                    <button type="button" class="arm-segment__item" aria-label="Sistem"
+                x-on:click="$store.armTheme.set('system')"
+                x-bind:aria-pressed="$store.armTheme.mode === 'system'">
+                <span class="arm-icon arm-icon--md" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg></span>
+            </button>
+            </div></div>
+    </aside>
+    <template x-if="open"><div class="arm-app__backdrop" x-on:click="open = false"></div></template>
+    <div class="arm-app__main">
+        <header class="arm-header">
+    <button type="button" data-tone="neutral" aria-label="Menüyü aç/kapat" class="arm-btn arm-btn--ghost arm-btn--square" x-on:click="toggle()">
+    <span class="arm-icon arm-icon--md arm-show-desktop" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg></span>
+    <span class="arm-icon arm-icon--md arm-hide-desktop" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></span>
+</button>
+            <a  href="index.html"  class="arm-brand arm-show-mobile">
+    <span class="arm-brand__logo">
+        <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v16"/><path d="m19 13 2-1a9 9 0 0 1-18 0l2 1"/><path d="M9 11h6"/><circle cx="12" cy="4" r="2"/></svg></span>
+            </span>
+    <span class="arm-brand__name">Armada</span></a>
+            <div class="arm-hide-mobile" style="min-width:0">
+                <nav aria-label="Konum" class="arm-breadcrumbs">
+    <ol><li>
+            <a href="index.html" >Armada</a>
+    </li>
+                    <li>
+            <span aria-current="page" >Tanım listesi</span>
+    </li></ol>
+</nav>
+            </div>
+        <div class="arm-header__actions"><button
+     type="button"     data-tone="neutral" class="arm-btn arm-btn--outline sc-search" x-data="" x-on:click="$dispatch('modal-show', { name: 'command' })"
+>
+    <span class="arm-icon arm-icon--md" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+    <span>Bileşen ara… <kbd class="arm-kbd">⌘K</kbd></span>            <span class="arm-btn__spinner arm-spinner" aria-hidden="true"></span>
+</button>
+                <button
+     type="button"     data-tone="neutral" class="arm-btn arm-btn--ghost arm-btn--square arm-show-mobile" aria-label="Ara" x-data="" x-on:click="$dispatch('modal-show', { name: 'command' })"
+>
+    <span class="arm-icon arm-icon--md" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+                <span class="arm-btn__spinner arm-spinner" aria-hidden="true"></span>
+</button>
+                <button
+     type="button"     data-tone="neutral" class="arm-btn arm-btn--ghost arm-btn--square" x-data="" x-on:click="$store.armTheme.toggle()" aria-label="Temayı değiştir"
+>
+        <span><span class="arm-icon arm-icon--md arm-theme-icon-light" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span>
+        <span class="arm-icon arm-icon--md arm-theme-icon-dark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg></span></span>            <span class="arm-btn__spinner arm-spinner" aria-hidden="true"></span>
+</button>
+                <a
+     href="https://github.com/armsys-tech/armada"     data-tone="neutral" class="arm-btn arm-btn--ghost arm-btn--square arm-hide-mobile" aria-label="GitHub"
+>
+    <span class="arm-icon arm-icon--md" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6a9 9 0 0 0-9 9V3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg></span>
+                <span class="arm-btn__spinner arm-spinner" aria-hidden="true"></span>
+</a></div></header>
+        <main class="arm-app__content"><div class="arm-page-header">
+    <div class="arm-page-header__text">
+                <h1 class="arm-page-header__title">Tanım listesi</h1>
+        <p class="arm-page-header__description">Anahtar-değer bilgileri; telefonda alt alta.</p>        <div class="sc-row" style="margin-top:14px">
+            <span data-tone="neutral" class="arm-badge">
+        <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg></span>
+    Veri gösterimi
+</span>
+                        <span data-tone="success" class="arm-badge">
+        <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></svg></span>
+    2 örnek
+</span>
+        </div>
+    </div>
+    </div>
+
+            <section class="sc-example" id="ornek-1">
+            <div class="sc-example__head">
+                <h2 class="arm-heading arm-heading--sm">Detay sayfası</h2>
+                <p>Telefonda terim ve değer alt alta.</p>            </div>
+            <div class="sc-preview"><div  class="arm-card" style="max-width:620px;">
+                    <div class="arm-card__header">
+                        <div class="arm-card__heading">
+                <h3 class="arm-card__title">Sunucu bilgileri</h3>                            </div>
+                    </div>
+                <div class="arm-card__body"><dl class="arm-deflist"><dt>Ad</dt>
+<dd >tr1-istanbul</dd>
+        <dt>Durum</dt>
+<dd ><span data-tone="success" class="arm-badge">
+    <span class="arm-badge__dot"></span>        Çalışıyor
+</span></dd>
+        <dt>IP adresi</dt>
+<dd ><code class="arm-code-inline">5.178.111.120</code></dd>
+        <dt>Bölge</dt>
+<dd >İstanbul</dd>
+        <dt>Oluşturulma</dt>
+<dd >12 Temmuz 2026</dd></dl></div>
+            </div>
+</div>
+            <details class="sc-code">
+                <summary><span class="arm-icon arm-icon--sm" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>
+Kodu göster</summary>
+                <div class="arm-code" x-data="{ copied: false }">
+            <div class="arm-code__header">
+            <span class="arm-icon arm-icon--sm" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg></span>
+<span>blade</span>
+                            <button
+     type="button"     data-tone="neutral" class="arm-btn arm-btn--ghost arm-btn--xs arm-code__copy" x-on:click="navigator.clipboard.writeText($root.querySelector('code').innerText); copied = true; setTimeout(() => copied = false, 1500)"
+>
+        <span><span x-text="copied ? 'Kopyalandı' : 'Kopyala'">Kopyala</span></span>            <span class="arm-btn__spinner arm-spinner" aria-hidden="true"></span>
+</button>
+                    </div>
+        <pre><code>&lt;armada:card title=&quot;Sunucu bilgileri&quot; style=&quot;max-width:620px&quot;&gt;
+    &lt;armada:deflist&gt;
+        &lt;armada:deflist.item term=&quot;Ad&quot;&gt;tr1-istanbul&lt;/armada:deflist.item&gt;
+        &lt;armada:deflist.item term=&quot;Durum&quot;&gt;&lt;armada:badge tone=&quot;success&quot; dot&gt;Çalışıyor&lt;/armada:badge&gt;&lt;/armada:deflist.item&gt;
+        &lt;armada:deflist.item term=&quot;IP adresi&quot;&gt;&lt;code class=&quot;arm-code-inline&quot;&gt;5.178.111.120&lt;/code&gt;&lt;/armada:deflist.item&gt;
+        &lt;armada:deflist.item term=&quot;Bölge&quot;&gt;İstanbul&lt;/armada:deflist.item&gt;
+        &lt;armada:deflist.item term=&quot;Oluşturulma&quot;&gt;12 Temmuz 2026&lt;/armada:deflist.item&gt;
+    &lt;/armada:deflist&gt;
+&lt;/armada:card&gt;</code></pre>
+</div>
+            </details>
+        </section>
+            <section class="sc-example" id="ornek-2">
+            <div class="sc-example__head">
+                <h2 class="arm-heading arm-heading--sm">Yığılmış (stacked)</h2>
+                            </div>
+            <div class="sc-preview"><dl class="arm-deflist arm-deflist--stacked" style="max-width:320px;"><dt>Fatura adresi</dt>
+<dd >Bağdat Cad. No: 42, Kadıköy / İstanbul</dd>
+    <dt>Vergi no</dt>
+<dd >1234567890</dd></dl>
+</div>
+            <details class="sc-code">
+                <summary><span class="arm-icon arm-icon--sm" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>
+Kodu göster</summary>
+                <div class="arm-code" x-data="{ copied: false }">
+            <div class="arm-code__header">
+            <span class="arm-icon arm-icon--sm" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg></span>
+<span>blade</span>
+                            <button
+     type="button"     data-tone="neutral" class="arm-btn arm-btn--ghost arm-btn--xs arm-code__copy" x-on:click="navigator.clipboard.writeText($root.querySelector('code').innerText); copied = true; setTimeout(() => copied = false, 1500)"
+>
+        <span><span x-text="copied ? 'Kopyalandı' : 'Kopyala'">Kopyala</span></span>            <span class="arm-btn__spinner arm-spinner" aria-hidden="true"></span>
+</button>
+                    </div>
+        <pre><code>&lt;armada:deflist stacked style=&quot;max-width:320px&quot;&gt;
+    &lt;armada:deflist.item term=&quot;Fatura adresi&quot;&gt;Bağdat Cad. No: 42, Kadıköy / İstanbul&lt;/armada:deflist.item&gt;
+    &lt;armada:deflist.item term=&quot;Vergi no&quot;&gt;1234567890&lt;/armada:deflist.item&gt;
+&lt;/armada:deflist&gt;</code></pre>
+</div>
+            </details>
+        </section>
+    
+            <section class="sc-props">
+            <h2 class="arm-heading arm-heading--md">Özellikler</h2>
+                            <h3>&lt;armada:deflist&gt;</h3>
+                                                <div class="arm-table-wrap sc-props__table sc-props__table--no-note">
+    <table class="arm-table arm-table--stack arm-table--compact">
+        <thead ><tr><th class="">
+            Prop
+    </th>
+                        <th class="">
+            Varsayılan
+    </th></tr></thead>
+                    <tbody ><tr class=""><td class="arm-table__primary"><code>stacked</code></td>
+                                <td data-label="Varsayılan" class=""><code>false</code></td></tr></tbody>
+    </table>
+    
+</div>
+                            <h3>&lt;armada:deflist.item&gt;</h3>
+                                                <div class="arm-table-wrap sc-props__table sc-props__table--no-note">
+    <table class="arm-table arm-table--stack arm-table--compact">
+        <thead ><tr><th class="">
+            Prop
+    </th>
+                        <th class="">
+            Varsayılan
+    </th></tr></thead>
+                    <tbody ><tr class=""><td class="arm-table__primary"><code>term</code></td>
+                                <td data-label="Varsayılan" class=""><code>zorunlu</code></td></tr></tbody>
+    </table>
+    
+</div>
+                    </section>
+    
+    <nav class="sc-pager">
+                    <a  href="video.html"  class="arm-card sc-pager__card">
+                        <div class="arm-card__body"><small>← Önceki</small><strong>Video</strong></div>
+            </a>
+                            <a  href="avatar.html"  class="arm-card sc-pager__card" style="text-align:end;">
+                        <div class="arm-card__body"><small>Sonraki →</small><strong>Avatar</strong></div>
+            </a>
+            </nav></main>
+    </div>
+    <nav class="arm-bottom-nav"
+    ><a  href="index.html"     class="arm-bottom-nav__item">
+            <span class="arm-bottom-nav__indicator">
+            <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+                    </span>
+        <span class="arm-bottom-nav__label">Genel bakış</span>
+    </a>
+            <button  type="button"     aria-current="page" class="arm-bottom-nav__item" x-on:click="open = true">
+            <span class="arm-bottom-nav__indicator">
+            <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
+                    </span>
+        <span class="arm-bottom-nav__label">Bileşenler</span>
+    </button>
+            <button  type="button"     class="arm-bottom-nav__item" x-on:click="$dispatch('modal-show', { name: 'command' })">
+            <span class="arm-bottom-nav__indicator">
+            <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+                    </span>
+        <span class="arm-bottom-nav__label">Ara</span>
+    </button>
+            <a  href="https://github.com/armsys-tech/armada#forms-and-livewire"     class="arm-bottom-nav__item">
+            <span class="arm-bottom-nav__indicator">
+            <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></svg></span>
+                    </span>
+        <span class="arm-bottom-nav__label">Livewire</span>
+    </a>
+            <button  type="button"     class="arm-bottom-nav__item" x-on:click="$store.armTheme.toggle()">
+            <span class="arm-bottom-nav__indicator">
+            <span class="arm-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"/><path d="M16 12a4 4 0 0 0-4-4"/><path d="m19 5-1.256 1.256"/><path d="M20 12h2"/></svg></span>
+                    </span>
+        <span class="arm-bottom-nav__label">Tema</span>
+    </button></nav>
+</div>
+
+<dialog class="arm-command" x-data="armCommand(JSON.parse('[{\u0022label\u0022:\u0022Genel bakış\u0022,\u0022icon\u0022:\u0022house\u0022,\u0022href\u0022:\u0022\\\/\u0022,\u0022group\u0022:\u0022Armada\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Uygulama kabuğu\u0022,\u0022icon\u0022:\u0022panels-top-left\u0022,\u0022href\u0022:\u0022\\\/components\\\/app-shell\u0022,\u0022group\u0022:\u0022Düzen\u0022,\u0022keywords\u0022:\u0022app-shell VApp · VLayout · VMain · VNavigationDrawer · VAppBar\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 9h18\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M9 21V9\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Kart\u0022,\u0022icon\u0022:\u0022square\u0022,\u0022href\u0022:\u0022\\\/components\\\/card\u0022,\u0022group\u0022:\u0022Düzen\u0022,\u0022keywords\u0022:\u0022card VCard · VSheet\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Container, stack, grid\u0022,\u0022icon\u0022:\u0022layout-grid\u0022,\u0022href\u0022:\u0022\\\/components\\\/layout-helpers\u0022,\u0022group\u0022:\u0022Düzen\u0022,\u0022keywords\u0022:\u0022layout-helpers VContainer · VRow · VCol · VSpacer · VDivider\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u00227\\u0022 height=\\u00227\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00221\\u0022\\\/\\u003E\\u003Crect width=\\u00227\\u0022 height=\\u00227\\u0022 x=\\u002214\\u0022 y=\\u00223\\u0022 rx=\\u00221\\u0022\\\/\\u003E\\u003Crect width=\\u00227\\u0022 height=\\u00227\\u0022 x=\\u002214\\u0022 y=\\u002214\\u0022 rx=\\u00221\\u0022\\\/\\u003E\\u003Crect width=\\u00227\\u0022 height=\\u00227\\u0022 x=\\u00223\\u0022 y=\\u002214\\u0022 rx=\\u00221\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Sayfa başlığı ve araç çubuğu\u0022,\u0022icon\u0022:\u0022heading\u0022,\u0022href\u0022:\u0022\\\/components\\\/page-header\u0022,\u0022group\u0022:\u0022Düzen\u0022,\u0022keywords\u0022:\u0022page-header VToolbar\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M6 12h12\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M6 20V4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M18 20V4\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Gezinme listesi\u0022,\u0022icon\u0022:\u0022list-tree\u0022,\u0022href\u0022:\u0022\\\/components\\\/navlist\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022navlist VList (nav)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M8 5h13\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M13 12h8\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M13 19h8\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 10a2 2 0 0 0 2 2h3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 5v12a2 2 0 0 0 2 2h3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Alt gezinme\u0022,\u0022icon\u0022:\u0022smartphone\u0022,\u0022href\u0022:\u0022\\\/components\\\/bottom-nav\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022bottom-nav VBottomNavigation\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002214\\u0022 height=\\u002220\\u0022 x=\\u00225\\u0022 y=\\u00222\\u0022 rx=\\u00222\\u0022 ry=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 18h.01\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Üst menü\u0022,\u0022icon\u0022:\u0022panel-top\u0022,\u0022href\u0022:\u0022\\\/components\\\/navbar\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022navbar VAppBar · VTabs\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 9h18\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Breadcrumb\u0022,\u0022icon\u0022:\u0022chevrons-right\u0022,\u0022href\u0022:\u0022\\\/components\\\/breadcrumbs\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022breadcrumbs VBreadcrumbs\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m6 17 5-5-5-5\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m13 17 5-5-5-5\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Sekmeler\u0022,\u0022icon\u0022:\u0022folder-kanban\u0022,\u0022href\u0022:\u0022\\\/components\\\/tabs\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022tabs VTabs · VWindow\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 10v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 10v2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 10v6\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Sayfalama\u0022,\u0022icon\u0022:\u0022chevrons-left-right\u0022,\u0022href\u0022:\u0022\\\/components\\\/pagination\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022pagination VPagination\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m9 7-5 5 5 5\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m15 7 5 5-5 5\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Adımlar\u0022,\u0022icon\u0022:\u0022list-ordered\u0022,\u0022href\u0022:\u0022\\\/components\\\/stepper\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022stepper VStepper · VStepperVertical\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M11 5h10\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M11 12h10\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M11 19h10\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M4 4h1v5\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M4 9h2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Açılır menü\u0022,\u0022icon\u0022:\u0022square-menu\u0022,\u0022href\u0022:\u0022\\\/components\\\/dropdown\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022dropdown VMenu · VList\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7 8h10\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7 12h10\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7 16h10\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Komut paleti\u0022,\u0022icon\u0022:\u0022command\u0022,\u0022href\u0022:\u0022\\\/components\\\/command\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022command VCommandPalette (labs)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Dil seçici\u0022,\u0022icon\u0022:\u0022languages\u0022,\u0022href\u0022:\u0022\\\/components\\\/lang-switcher\u0022,\u0022group\u0022:\u0022Navigasyon\u0022,\u0022keywords\u0022:\u0022lang-switcher —\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m5 8 6 6\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m4 14 6-6 2-3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M2 5h12\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7 2h1\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m22 22-5-10-5 10\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M14 18h6\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Buton\u0022,\u0022icon\u0022:\u0022mouse-pointer-click\u0022,\u0022href\u0022:\u0022\\\/components\\\/button\u0022,\u0022group\u0022:\u0022Eylemler\u0022,\u0022keywords\u0022:\u0022button VBtn · VIconBtn\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M14 4.1 12 6\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m5.1 8-2.9-.8\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m6 12-1.9 2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7.2 2.2 8 5.1\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Segment kontrol\u0022,\u0022icon\u0022:\u0022toggle-left\u0022,\u0022href\u0022:\u0022\\\/components\\\/toggle-group\u0022,\u0022group\u0022:\u0022Eylemler\u0022,\u0022keywords\u0022:\u0022toggle-group VBtnToggle · VBtnGroup · VItemGroup\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Ccircle cx=\\u00229\\u0022 cy=\\u002212\\u0022 r=\\u00223\\u0022\\\/\\u003E\\u003Crect width=\\u002220\\u0022 height=\\u002214\\u0022 x=\\u00222\\u0022 y=\\u00225\\u0022 rx=\\u00227\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Chip\u0022,\u0022icon\u0022:\u0022tag\u0022,\u0022href\u0022:\u0022\\\/components\\\/chip\u0022,\u0022group\u0022:\u0022Eylemler\u0022,\u0022keywords\u0022:\u0022chip VChip · VChipGroup · VSlideGroup\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z\\u0022\\\/\\u003E\\u003Ccircle cx=\\u00227.5\\u0022 cy=\\u00227.5\\u0022 r=\\u0022.5\\u0022 fill=\\u0022currentColor\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022FAB ve speed dial\u0022,\u0022icon\u0022:\u0022circle-plus\u0022,\u0022href\u0022:\u0022\\\/components\\\/fab\u0022,\u0022group\u0022:\u0022Eylemler\u0022,\u0022keywords\u0022:\u0022fab VFab · VSpeedDial\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Ccircle cx=\\u002212\\u0022 cy=\\u002212\\u0022 r=\\u002210\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 12h8\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 8v8\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Metin alanı\u0022,\u0022icon\u0022:\u0022text-cursor-input\u0022,\u0022href\u0022:\u0022\\\/components\\\/input\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022input VTextField · VMaskInput\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12 20h-1a2 2 0 0 1-2-2 2 2 0 0 1-2 2H6\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M13 8h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-7\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M5 16H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h1\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M6 4h1a2 2 0 0 1 2 2 2 2 0 0 1 2-2h1\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M9 6v12\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Çok satırlı metin\u0022,\u0022icon\u0022:\u0022text\u0022,\u0022href\u0022:\u0022\\\/components\\\/textarea\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022textarea VTextarea · VCounter\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M21 5H3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M15 12H3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M17 19H3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Select\u0022,\u0022icon\u0022:\u0022chevrons-up-down\u0022,\u0022href\u0022:\u0022\\\/components\\\/select\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022select VSelect\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m7 15 5 5 5-5\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m7 9 5-5 5 5\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Combobox\u0022,\u0022icon\u0022:\u0022search\u0022,\u0022href\u0022:\u0022\\\/components\\\/combobox\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022combobox VAutocomplete · VCombobox\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m21 21-4.34-4.34\\u0022\\\/\\u003E\\u003Ccircle cx=\\u002211\\u0022 cy=\\u002211\\u0022 r=\\u00228\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Checkbox\u0022,\u0022icon\u0022:\u0022square-check\u0022,\u0022href\u0022:\u0022\\\/components\\\/checkbox\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022checkbox VCheckbox\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m16 9-5.5 5.5L8 12\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Radio\u0022,\u0022icon\u0022:\u0022circle-dot\u0022,\u0022href\u0022:\u0022\\\/components\\\/radio\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022radio VRadio · VRadioGroup\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Ccircle cx=\\u002212\\u0022 cy=\\u002212\\u0022 r=\\u00221\\u0022\\\/\\u003E\\u003Ccircle cx=\\u002212\\u0022 cy=\\u002212\\u0022 r=\\u002210\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Switch\u0022,\u0022icon\u0022:\u0022toggle-right\u0022,\u0022href\u0022:\u0022\\\/components\\\/switch\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022switch VSwitch\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Ccircle cx=\\u002215\\u0022 cy=\\u002212\\u0022 r=\\u00223\\u0022\\\/\\u003E\\u003Crect width=\\u002220\\u0022 height=\\u002214\\u0022 x=\\u00222\\u0022 y=\\u00225\\u0022 rx=\\u00227\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Slider\u0022,\u0022icon\u0022:\u0022sliders-horizontal\u0022,\u0022href\u0022:\u0022\\\/components\\\/slider\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022slider VSlider · VRangeSlider\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M10 5H3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 19H3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M14 3v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 17v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M21 12h-9\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M21 19h-5\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M21 5h-7\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 10v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 12H3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Sayı girişi\u0022,\u0022icon\u0022:\u0022hash\u0022,\u0022href\u0022:\u0022\\\/components\\\/number-input\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022number-input VNumberInput\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cline x1=\\u00224\\u0022 x2=\\u002220\\u0022 y1=\\u00229\\u0022 y2=\\u00229\\u0022\\\/\\u003E\\u003Cline x1=\\u00224\\u0022 x2=\\u002220\\u0022 y1=\\u002215\\u0022 y2=\\u002215\\u0022\\\/\\u003E\\u003Cline x1=\\u002210\\u0022 x2=\\u00228\\u0022 y1=\\u00223\\u0022 y2=\\u002221\\u0022\\\/\\u003E\\u003Cline x1=\\u002216\\u0022 x2=\\u002214\\u0022 y1=\\u00223\\u0022 y2=\\u002221\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Doğrulama kodu\u0022,\u0022icon\u0022:\u0022key-round\u0022,\u0022href\u0022:\u0022\\\/components\\\/otp\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022otp VOtpInput\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z\\u0022\\\/\\u003E\\u003Ccircle cx=\\u002216.5\\u0022 cy=\\u00227.5\\u0022 r=\\u0022.5\\u0022 fill=\\u0022currentColor\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Tarih seçici\u0022,\u0022icon\u0022:\u0022calendar\u0022,\u0022href\u0022:\u0022\\\/components\\\/date-picker\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022date-picker VDatePicker · VDateInput · VDateRangePicker\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M8 2v3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 2v3\\u0022\\\/\\u003E\\u003Crect x=\\u00223\\u0022 y=\\u00223\\u0022 width=\\u002218\\u0022 height=\\u002218\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 9h18\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Saat seçici\u0022,\u0022icon\u0022:\u0022clock\u0022,\u0022href\u0022:\u0022\\\/components\\\/time-picker\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022time-picker VTimePicker\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Ccircle cx=\\u002212\\u0022 cy=\\u002212\\u0022 r=\\u002210\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 6v6l4 2\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Zengin metin editörü\u0022,\u0022icon\u0022:\u0022pilcrow\u0022,\u0022href\u0022:\u0022\\\/components\\\/editor\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022editor — (VTextarea + TipTap)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M13 4v16\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M17 4v16\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M19 4H9.5a4.5 4.5 0 0 0 0 9H13\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Renk seçici\u0022,\u0022icon\u0022:\u0022palette\u0022,\u0022href\u0022:\u0022\\\/components\\\/color-picker\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022color-picker VColorPicker · VColorInput\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z\\u0022\\\/\\u003E\\u003Ccircle cx=\\u002213.5\\u0022 cy=\\u00226.5\\u0022 r=\\u0022.5\\u0022 fill=\\u0022currentColor\\u0022\\\/\\u003E\\u003Ccircle cx=\\u002217.5\\u0022 cy=\\u002210.5\\u0022 r=\\u0022.5\\u0022 fill=\\u0022currentColor\\u0022\\\/\\u003E\\u003Ccircle cx=\\u00226.5\\u0022 cy=\\u002212.5\\u0022 r=\\u0022.5\\u0022 fill=\\u0022currentColor\\u0022\\\/\\u003E\\u003Ccircle cx=\\u00228.5\\u0022 cy=\\u00227.5\\u0022 r=\\u0022.5\\u0022 fill=\\u0022currentColor\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Dosya yükleme\u0022,\u0022icon\u0022:\u0022cloud-upload\u0022,\u0022href\u0022:\u0022\\\/components\\\/file-upload\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022file-upload VFileInput · VFileUpload\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12 13v8\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m8 17 4-4 4 4\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Puanlama\u0022,\u0022icon\u0022:\u0022star\u0022,\u0022href\u0022:\u0022\\\/components\\\/rating\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022rating VRating\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Form düzeni\u0022,\u0022icon\u0022:\u0022clipboard-list\u0022,\u0022href\u0022:\u0022\\\/components\\\/forms\u0022,\u0022group\u0022:\u0022Form\u0022,\u0022keywords\u0022:\u0022forms VForm · VValidation\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u00228\\u0022 height=\\u00224\\u0022 x=\\u00228\\u0022 y=\\u00222\\u0022 rx=\\u00221\\u0022 ry=\\u00221\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 11h4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 16h4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 11h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 16h.01\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Tablo\u0022,\u0022icon\u0022:\u0022table-2\u0022,\u0022href\u0022:\u0022\\\/components\\\/table\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022table VTable · VDataTable\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M3 9h18\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M9 3v18\\u0022\\\/\\u003E\\u003Crect x=\\u00223\\u0022 y=\\u00223\\u0022 width=\\u002218\\u0022 height=\\u002218\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Liste\u0022,\u0022icon\u0022:\u0022list\u0022,\u0022href\u0022:\u0022\\\/components\\\/list\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022list VList\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M3 5h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 12h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 19h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 5h13\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 12h13\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 19h13\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Etkinlik takvimi\u0022,\u0022icon\u0022:\u0022calendar-days\u0022,\u0022href\u0022:\u0022\\\/components\\\/calendar\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022calendar VCalendar\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M8 2v3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 2v3\\u0022\\\/\\u003E\\u003Crect x=\\u00223\\u0022 y=\\u00223\\u0022 width=\\u002218\\u0022 height=\\u002218\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 9h18\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 13h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 13h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 13h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 17h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 17h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 17h.01\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Kanban\u0022,\u0022icon\u0022:\u0022square-kanban\u0022,\u0022href\u0022:\u0022\\\/components\\\/kanban\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022kanban —\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 7v7\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 7v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 7v9\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Sonsuz kaydırma\u0022,\u0022icon\u0022:\u0022arrow-down-to-line\u0022,\u0022href\u0022:\u0022\\\/components\\\/infinite-scroll\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022infinite-scroll VInfiniteScroll · VVirtualScroll\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12 17V3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m6 11 6 6 6-6\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M19 21H5\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Video\u0022,\u0022icon\u0022:\u0022clapperboard\u0022,\u0022href\u0022:\u0022\\\/components\\\/video\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022video VVideo (labs)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m12.296 3.464 3.02 3.956\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m6.18 5.276 3.1 3.899\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Tanım listesi\u0022,\u0022icon\u0022:\u0022list-collapse\u0022,\u0022href\u0022:\u0022\\\/components\\\/deflist\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022deflist —\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M10 5h11\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M10 12h11\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M10 19h11\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m3 10 3-3-3-3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m3 20 3-3-3-3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Avatar\u0022,\u0022icon\u0022:\u0022circle-user\u0022,\u0022href\u0022:\u0022\\\/components\\\/avatar\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022avatar VAvatar · VAvatarGroup (labs)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Ccircle cx=\\u002212\\u0022 cy=\\u002212\\u0022 r=\\u002210\\u0022\\\/\\u003E\\u003Ccircle cx=\\u002212\\u0022 cy=\\u002210\\u0022 r=\\u00223\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Rozet\u0022,\u0022icon\u0022:\u0022badge-check\u0022,\u0022href\u0022:\u0022\\\/components\\\/badge\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022badge VBadge\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m16 9-5.5 5.5L8 12\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022İstatistik\u0022,\u0022icon\u0022:\u0022gauge\u0022,\u0022href\u0022:\u0022\\\/components\\\/stat\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022stat —\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m12 14 4-4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3.34 19a10 10 0 1 1 17.32 0\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Zaman çizelgesi\u0022,\u0022icon\u0022:\u0022git-commit-vertical\u0022,\u0022href\u0022:\u0022\\\/components\\\/timeline\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022timeline VTimeline\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12 3v6\\u0022\\\/\\u003E\\u003Ccircle cx=\\u002212\\u0022 cy=\\u002212\\u0022 r=\\u00223\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 15v6\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Ağaç\u0022,\u0022icon\u0022:\u0022folder-tree\u0022,\u0022href\u0022:\u0022\\\/components\\\/tree\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022tree VTreeview\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 5a2 2 0 0 0 2 2h3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 3v13a2 2 0 0 0 2 2h3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Akordiyon\u0022,\u0022icon\u0022:\u0022rows-3\u0022,\u0022href\u0022:\u0022\\\/components\\\/accordion\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022accordion VExpansionPanels\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M21 9H3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M21 15H3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Carousel\u0022,\u0022icon\u0022:\u0022gallery-horizontal\u0022,\u0022href\u0022:\u0022\\\/components\\\/carousel\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022carousel VCarousel · VWindow · VSlideGroup\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M2 3v18\\u0022\\\/\\u003E\\u003Crect width=\\u002212\\u0022 height=\\u002218\\u0022 x=\\u00226\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M22 3v18\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Görsel\u0022,\u0022icon\u0022:\u0022image\u0022,\u0022href\u0022:\u0022\\\/components\\\/image\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022image VImg · VResponsive\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022 ry=\\u00222\\u0022\\\/\\u003E\\u003Ccircle cx=\\u00229\\u0022 cy=\\u00229\\u0022 r=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Boş durum\u0022,\u0022icon\u0022:\u0022inbox\u0022,\u0022href\u0022:\u0022\\\/components\\\/empty\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022empty VEmptyState\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpolyline points=\\u002222 12 16 12 14 15 10 15 8 12 2 12\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Kod bloğu\u0022,\u0022icon\u0022:\u0022code\u0022,\u0022href\u0022:\u0022\\\/components\\\/code\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022code VCode\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m16 18 6-6-6-6\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m8 6-6 6 6 6\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Tipografi\u0022,\u0022icon\u0022:\u0022type\u0022,\u0022href\u0022:\u0022\\\/components\\\/typography\u0022,\u0022group\u0022:\u0022Veri gösterimi\u0022,\u0022keywords\u0022:\u0022typography VKbd · VHighlight\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12 4v16\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M9 20h6\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Uyarı\u0022,\u0022icon\u0022:\u0022triangle-alert\u0022,\u0022href\u0022:\u0022\\\/components\\\/callout\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022callout VAlert\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 9v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 17h.01\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Banner\u0022,\u0022icon\u0022:\u0022megaphone\u0022,\u0022href\u0022:\u0022\\\/components\\\/banner\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022banner VBanner · VSystemBar\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 6v8\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Toast\u0022,\u0022icon\u0022:\u0022bell-ring\u0022,\u0022href\u0022:\u0022\\\/components\\\/toast\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022toast VSnackbar · VSnackbarQueue\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M10.268 21a2 2 0 0 0 3.464 0\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M22 8c0-2.3-.8-4.3-2-6\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M4 2C2.8 3.7 2 5.7 2 8\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Modal\u0022,\u0022icon\u0022:\u0022app-window\u0022,\u0022href\u0022:\u0022\\\/components\\\/modal\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022modal VDialog · VConfirmEdit\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect x=\\u00222\\u0022 y=\\u00224\\u0022 width=\\u002220\\u0022 height=\\u002216\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M10 4v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M2 8h20\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M6 4v4\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Drawer ve bottom sheet\u0022,\u0022icon\u0022:\u0022panel-right\u0022,\u0022href\u0022:\u0022\\\/components\\\/drawer\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022drawer VNavigationDrawer (temporary) · VBottomSheet\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M15 3v18\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Tooltip\u0022,\u0022icon\u0022:\u0022message-circle\u0022,\u0022href\u0022:\u0022\\\/components\\\/tooltip\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022tooltip VTooltip\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Popover\u0022,\u0022icon\u0022:\u0022message-square-more\u0022,\u0022href\u0022:\u0022\\\/components\\\/popover\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022popover VMenu · VHover\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 11h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M16 11h.01\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 11h.01\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022İlerleme\u0022,\u0022icon\u0022:\u0022loader\u0022,\u0022href\u0022:\u0022\\\/components\\\/progress\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022progress VProgressLinear · VProgressCircular\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M12 2v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m16.2 7.8 2.9-2.9\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M18 12h4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m16.2 16.2 2.9 2.9\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M12 18v4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m4.9 19.1 2.9-2.9\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M2 12h4\\u0022\\\/\\u003E\\u003Cpath d=\\u0022m4.9 4.9 2.9 2.9\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Skeleton\u0022,\u0022icon\u0022:\u0022scan-line\u0022,\u0022href\u0022:\u0022\\\/components\\\/skeleton\u0022,\u0022group\u0022:\u0022Geri bildirim ve overlay\u0022,\u0022keywords\u0022:\u0022skeleton VSkeletonLoader\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M3 7V5a2 2 0 0 1 2-2h2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M17 3h2a2 2 0 0 1 2 2v2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M21 17v2a2 2 0 0 1-2 2h-2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7 21H5a2 2 0 0 1-2-2v-2\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M7 12h10\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Grafik\u0022,\u0022icon\u0022:\u0022chart-column\u0022,\u0022href\u0022:\u0022\\\/components\\\/chart\u0022,\u0022group\u0022:\u0022Grafikler\u0022,\u0022keywords\u0022:\u0022chart VSparkline · VPie · VHeatmap (labs)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M3 3v16a2 2 0 0 0 2 2h16\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M18 17V9\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M13 17V5\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M8 17v-3\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Isı haritası\u0022,\u0022icon\u0022:\u0022grid-3x3\u0022,\u0022href\u0022:\u0022\\\/components\\\/heatmap\u0022,\u0022group\u0022:\u0022Grafikler\u0022,\u0022keywords\u0022:\u0022heatmap VHeatmap (labs)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Crect width=\\u002218\\u0022 height=\\u002218\\u0022 x=\\u00223\\u0022 y=\\u00223\\u0022 rx=\\u00222\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 9h18\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M3 15h18\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M9 3v18\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M15 3v18\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Sparkline\u0022,\u0022icon\u0022:\u0022activity\u0022,\u0022href\u0022:\u0022\\\/components\\\/sparkline\u0022,\u0022group\u0022:\u0022Grafikler\u0022,\u0022keywords\u0022:\u0022sparkline VSparkline\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022},{\u0022label\u0022:\u0022Halka grafik\u0022,\u0022icon\u0022:\u0022chart-pie\u0022,\u0022href\u0022:\u0022\\\/components\\\/donut\u0022,\u0022group\u0022:\u0022Grafikler\u0022,\u0022keywords\u0022:\u0022donut VPie (labs)\u0022,\u0022svg\u0022:\u0022\\u003Csvg xmlns=\\u0022http:\\\/\\\/www.w3.org\\\/2000\\\/svg\\u0022 viewBox=\\u00220 0 24 24\\u0022 fill=\\u0022none\\u0022 stroke=\\u0022currentColor\\u0022 stroke-width=\\u00222\\u0022 stroke-linecap=\\u0022round\\u0022 stroke-linejoin=\\u0022round\\u0022\\u003E\\u003Cpath d=\\u0022M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z\\u0022\\\/\\u003E\\u003Cpath d=\\u0022M21.21 15.89A10 10 0 1 1 8 2.83\\u0022\\\/\\u003E\\u003C\\\/svg\\u003E\u0022}]'), 'command', true)" x-on:click="if ($event.target === $el) $el.close()" aria-label="Komut paleti">
+    <div class="arm-command__search">
+        <span class="arm-icon arm-icon--lg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg></span>
+        <input type="text" x-ref="input" x-model="query" placeholder="Bileşen veya sayfa ara…" autocomplete="off"
+            x-on:keydown.down.prevent="move(1)" x-on:keydown.up.prevent="move(-1)" x-on:keydown.enter.prevent="run(filtered[active])">
+        <kbd class="arm-kbd arm-kbd--hint">Esc</kbd>
+        <button type="button" class="arm-command__cancel" x-on:click="$el.closest('dialog').close()">Vazgeç</button>
+    </div>
+    <div class="arm-command__list" role="listbox">
+        <template x-for="(item, i) in filtered" :key="item.label + i">
+            <div>
+                <div class="arm-menu__heading" x-show="item.group && (i === 0 || filtered[i - 1].group !== item.group)" x-text="item.group"></div>
+                <a class="arm-menu__item" role="option" x-bind:href="item.href || '#'" x-bind:data-active="active === i ? '' : null" x-on:mouseenter="active = i" x-on:click.prevent="run(item)">
+                    <span class="arm-icon" x-html="item.svg"></span>
+                    <span class="arm-menu__label" x-text="item.label"></span>
+                    <kbd class="arm-menu__kbd" x-show="item.kbd" x-text="item.kbd"></kbd>
+                </a>
+            </div>
+        </template>
+        <div class="arm-listbox__empty" x-show="! filtered.length">Sonuç yok</div>
+    </div>
+    <div class="arm-command__footer">
+        <span><kbd class="arm-kbd">↑</kbd><kbd class="arm-kbd">↓</kbd> gezin</span>
+        <span><kbd class="arm-kbd">↵</kbd> aç</span>
+        <span><kbd class="arm-kbd">Esc</kbd> kapat</span>
+    </div>
+</dialog>
+<div class="arm-toaster" data-position="bottom-right" x-data="armToaster(null)" aria-live="polite" role="region" aria-label="Bildirimler">
+    <template x-for="t in toasts" :key="t.id">
+        <div class="arm-toast" x-bind:data-tone="t.tone" role="status"
+            x-on:mouseenter="pause(t)" x-on:mouseleave="resume(t)">
+            <span class="arm-icon" aria-hidden="true" x-html="icons[t.tone] || icons.info"></span>
+            <div class="arm-toast__content">
+                <span class="arm-toast__title" x-text="t.title" x-show="t.title"></span>
+                <span class="arm-toast__text" x-text="t.text" x-show="t.text"></span>
+            </div>
+            <template x-if="t.action"><button type="button" class="arm-btn arm-btn--soft arm-btn--sm arm-toast__action" data-tone="neutral" x-text="t.action.label" x-on:click="t.action.onClick?.(); dismiss(t.id)"></button></template>
+            <button type="button" class="arm-btn arm-btn--ghost arm-btn--sm arm-btn--square arm-toast__close" data-tone="neutral" aria-label="Kapat" x-on:click="dismiss(t.id)"><span class="arm-icon arm-icon--md"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span></button>
+            <span class="arm-toast__progress" x-show="t.duration" x-bind:style="`animation-duration: ${t.duration}ms; animation-play-state: ${t.paused ? 'paused' : 'running'}`"></span>
+        </div>
+    </template>
+    <template x-ref="icons">
+        <span data-info><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><span data-success><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg></span>
+        <span data-warning><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span><span data-danger><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+    </template>
+</div>
+
+
+<script src="assets/armada.js"></script><script src="assets/alpine.js" defer></script></body>
+</html>

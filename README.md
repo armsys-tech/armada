@@ -2,6 +2,8 @@
 
 Blade and Livewire UI components for Laravel, by Armsys Technology.
 
+**Live demo:** https://armsys-tech.github.io/armada/ — every component with examples, light and dark, works on phones.
+
 - **100+ components** — app shell, navigation, forms, overlays, tables, charts, calendar, kanban, rich text editor and more.
 - **Light and dark** themes with a system mode and no flash on load.
 - **Mobile-first** — menus and pickers become bottom sheets on phones, tables turn into cards, touch targets grow on coarse pointers.
@@ -202,6 +204,8 @@ Interface strings (Close, Search…, Pick a time, Today, …) go through `__()`.
 Current versions of Chrome, Edge, Firefox and Safari (iOS 16.4+). Armada uses cascade layers, container queries, `color-mix()` and `:has()`.
 
 ## Development
+
+`docs/` is the live demo: a static HTML export of the reference project's component showcase, served by GitHub Pages. It is not part of the Composer package.
 
 ```bash
 node build.mjs   # concatenates resources/css and resources/js into dist/
